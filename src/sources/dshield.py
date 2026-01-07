@@ -54,9 +54,9 @@ class DshieldClient:
         Returns:
             DataFrame with columns: date (datetime), value (int), port (int).
         """
-        allowed = {"records", "sources", "targets", "tcp", "udp"}
+        allowed = {'records', 'sources', 'targets', 'tcp', 'udp'}
         if metric not in allowed:
-            raise ValueError(f"Unsupported DShield metric: {metric}. Allowed: {sorted(allowed)}")
+            raise ValueError(f'Unsupported DShield metric: {metric}. Allowed: {sorted(allowed)}')
 
         url = DSHIELD_PORTHISTORY.format(port=port, start=start.isoformat(), end=end.isoformat())
 
@@ -73,12 +73,12 @@ class DshieldClient:
             if isinstance(payload, dict):
                 keys = list(payload.keys())
                 logger.debug(
-                    "DShield payload type=dict keys_count=%d sample_keys=%s",
+                    'DShield payload type=dict keys_count=%d sample_keys=%s',
                     len(keys),
                     keys[:10],
                 )
             else:
-                logger.debug("DShield payload type=%s", type(payload).__name__)
+                logger.debug('DShield payload type=%s', type(payload).__name__)
             logger.debug('DShield raw response (first 800 chars): %s', r.text[:800])
         logger.debug('DShield parsed portinfo entries: port=%d entries=%d', port, len(portinfo))
 
@@ -140,27 +140,27 @@ class DshieldClient:
             return []
 
         # Case 2: top-level portinfo
-        if "portinfo" in payload:
-            out = _as_list(payload.get("portinfo"))
+        if 'portinfo' in payload:
+            out = _as_list(payload.get('portinfo'))
             if out:
                 return out
 
         # Case 3: nested under porthistory
-        ph = payload.get("porthistory")
+        ph = payload.get('porthistory')
         if isinstance(ph, dict):
-            out = _as_list(ph.get("portinfo"))
+            out = _as_list(ph.get('portinfo'))
             if out:
                 return out
-            for k in ("data", "history", "timeseries", "series"):
+            for k in ('data', 'history', 'timeseries', 'series'):
                 out = _as_list(ph.get(k))
                 if out:
                     return out
-                
+
         # Case 4: list of dicts
         if isinstance(ph, list):
             for item in ph:
                 if isinstance(item, dict):
-                    out = _as_list(item.get("portinfo"))
+                    out = _as_list(item.get('portinfo'))
                     if out:
                         return out
 
@@ -171,8 +171,9 @@ class DshieldClient:
                 numeric_entries.append(v)
 
         if numeric_entries:
+
             def _sort_key(d: Dict[str, Any]) -> str:
-                return str(d.get("date", ""))
+                return str(d.get('date', ''))
 
             return sorted(numeric_entries, key=_sort_key)
 
