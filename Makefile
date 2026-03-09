@@ -45,7 +45,7 @@ debug: ## Debugging mode for main
 		--out-plot overlay.png \
 		--debug
 
-3month: 
+3month: ## Using in creating display_graph.png
 	$(UV) run python -m src.cli \
 		--start 2025-01-01 --end 2025-03-01 \
 		--ports 23 2323 7547 5555 \
