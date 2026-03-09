@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-from typing import Any, List, Optional, Tuple
+from typing import Any, List, Tuple
 
 import requests
 
@@ -13,7 +13,7 @@ from dark_harvest.models import Incident
 CLOUDFLARE_INCIDENTS_JSON = 'https://www.cloudflarestatus.com/api/v2/incidents.json'
 
 
-def _to_dt(x: Any) -> Optional[dt.datetime]:
+def _to_dt(x: Any) -> dt.datetime | None:
     """
     Convert a timestamp-like value to a UTC-naive datetime.
 
@@ -44,7 +44,7 @@ def _clamp_range(
     inc_end: dt.datetime,
     start: dt.datetime,
     end: dt.datetime,
-) -> Optional[Tuple[dt.datetime, dt.datetime]]:
+) -> Tuple[dt.datetime, dt.datetime] | None:
     """Clamp an incident window to [start, end] if overlapping; otherwise return None."""
     if inc_end < start or inc_start > end:
         return None

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-from typing import Any, List, Optional, Tuple
+from typing import Any, List, Tuple
 
 import requests
 
@@ -13,7 +13,7 @@ from dark_harvest.models import Incident
 GCP_INCIDENTS_JSON = 'https://status.cloud.google.com/incidents.json'
 
 
-def _to_dt(x: Any) -> Optional[dt.datetime]:
+def _to_dt(x: Any) -> dt.datetime | None:
     """
     Convert a timestamp-like value to a UTC-naive datetime.
 
@@ -44,7 +44,7 @@ def _clamp_range(
     inc_end: dt.datetime,
     start: dt.datetime,
     end: dt.datetime,
-) -> Optional[Tuple[dt.datetime, dt.datetime]]:
+) -> Tuple[dt.datetime, dt.datetime] | None:
     """Clamp an incident window to [start, end] if overlapping; otherwise return None."""
     if inc_end < start or inc_start > end:
         return None
@@ -68,12 +68,15 @@ def fetch_gcp_incidents(start: dt.datetime, end: dt.datetime) -> List[Incident]:
 
     incidents: List[Incident] = []
     for item in items:
-        inc_id = str(item.get('number', '')) or str(item.get('id', '')) or str(item.get('external_desc', ''))
-        title = str(item.get('title', '')) or str(item.get('service_name', 'GCP incident'))
+        inc_id = str(item.get('number', '')) or str(
+            item.get('id', '')) or str(item.get('external_desc', ''))
+        title = str(item.get('title', '')) or str(
+            item.get('service_name', 'GCP incident'))
         url = str(item.get('uri', ''))
 
         begin = _to_dt(item.get('begin'))
-        finish = _to_dt(item.get('end')) or _to_dt(item.get('most_recent_update'))
+        finish = _to_dt(item.get('end')) or _to_dt(
+            item.get('most_recent_update'))
         if begin is None:
             continue
 
@@ -88,7 +91,8 @@ def fetch_gcp_incidents(start: dt.datetime, end: dt.datetime) -> List[Incident]:
         incidents.append(
             Incident(
                 provider='GCP',
-                incident_id=str(inc_id) if inc_id else f'gcp-{begin.isoformat()}',
+                incident_id=str(
+                    inc_id) if inc_id else f'gcp-{begin.isoformat()}',
                 title=title,
                 start=clamped[0],
                 end=clamped[1],

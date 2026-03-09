@@ -68,8 +68,11 @@ def main() -> None:
     logger.debug('User-Agent: %s', config.user_agent)
 
     aws = fetch_aws_incidents(start, end)
+    logger.debug("AWS incidents pulled")
     gcp = fetch_gcp_incidents(start, end)
+    logger.debug("GCP incidents pulled")
     cloudflare = fetch_cloudflare_incidents(start, end)
+    logger.debug("Cloudflare incidents pulled")
 
     logger.info(
         'Fetched incidents: AWS=%d GCP=%d Cloudflare=%d',

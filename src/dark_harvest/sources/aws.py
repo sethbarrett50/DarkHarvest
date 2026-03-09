@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime as dt
 import re
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 import feedparser
 
@@ -14,7 +14,7 @@ from dark_harvest.models import Incident
 AWS_RSS_ALL = 'https://status.aws.amazon.com/rss/all.rss'
 
 
-def _to_dt(x: Any) -> Optional[dt.datetime]:
+def _to_dt(x: Any) -> dt.datetime | None:
     """Convert an arbitrary timestamp-like value to a datetime (UTC-naive)."""
     if x is None:
         return None
@@ -31,7 +31,7 @@ def _clamp_range(
     inc_end: dt.datetime,
     start: dt.datetime,
     end: dt.datetime,
-) -> Optional[Tuple[dt.datetime, dt.datetime]]:
+) -> Tuple[dt.datetime, dt.datetime] | None:
     """Clamp an incident window to [start, end] if overlapping; otherwise return None."""
     if inc_end < start or inc_start > end:
         return None
@@ -64,9 +64,11 @@ def fetch_aws_incidents(start: dt.datetime, end: dt.datetime) -> List[Incident]:
     grouped: Dict[str, List[Tuple[dt.datetime, str, str]]] = {}
 
     for entry in getattr(feed, 'entries', []):
-        guid = str(getattr(entry, 'guid', '') or getattr(entry, 'id', '') or '')
+        guid = str(getattr(entry, 'guid', '')
+                   or getattr(entry, 'id', '') or '')
         title = str(getattr(entry, 'title', '') or '')
-        published = _to_dt(getattr(entry, 'published', None) or getattr(entry, 'updated', None))
+        published = _to_dt(getattr(entry, 'published', None)
+                           or getattr(entry, 'updated', None))
         if not guid or published is None:
             continue
 

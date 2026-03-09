@@ -2,10 +2,8 @@ from __future__ import annotations
 
 import logging
 
-from typing import Optional
 
-
-def configure_logging(debug: bool = False, log_file: Optional[str] = None) -> None:
+def configure_logging(debug: bool = False, log_file: str | None = None) -> None:
     """
     Configure application logging.
 

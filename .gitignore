@@ -20,3 +20,6 @@ wheels/
 
 # Backups
 *.bkp
+
+# Logs
+*.log
