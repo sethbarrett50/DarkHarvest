@@ -14,10 +14,12 @@ if TYPE_CHECKING:
 BotnetMetric = Literal['records', 'sources', 'targets', 'tcp', 'udp']
 
 
-@dataclass(config=ConfigDict(
-    frozen=True,
-    str_strip_whitespace=True,
-))
+@dataclass(
+    config=ConfigDict(
+        frozen=True,
+        str_strip_whitespace=True,
+    )
+)
 class DarkHarvestConfig:
     """
     Validated runtime configuration for Dark Harvest.
@@ -43,8 +45,7 @@ class DarkHarvestConfig:
                 return dt.datetime.fromisoformat(value)
             except ValueError as exc:
                 raise ValueError(
-                    f'Invalid ISO date/datetime: {value!r}. Expected YYYY-MM-DD '
-                    'or a full ISO 8601 datetime string.'
+                    f'Invalid ISO date/datetime: {value!r}. Expected YYYY-MM-DD or a full ISO 8601 datetime string.'
                 ) from exc
 
         raise TypeError('Expected a datetime or ISO-format string.')
@@ -57,8 +58,7 @@ class DarkHarvestConfig:
 
         for port in value:
             if not 1 <= port <= 65535:
-                raise ValueError(
-                    f'Invalid port {port}. Must be in range 1-65535.')
+                raise ValueError(f'Invalid port {port}. Must be in range 1-65535.')
 
         return value
 

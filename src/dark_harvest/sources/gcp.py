@@ -68,15 +68,12 @@ def fetch_gcp_incidents(start: dt.datetime, end: dt.datetime) -> List[Incident]:
 
     incidents: List[Incident] = []
     for item in items:
-        inc_id = str(item.get('number', '')) or str(
-            item.get('id', '')) or str(item.get('external_desc', ''))
-        title = str(item.get('title', '')) or str(
-            item.get('service_name', 'GCP incident'))
+        inc_id = str(item.get('number', '')) or str(item.get('id', '')) or str(item.get('external_desc', ''))
+        title = str(item.get('title', '')) or str(item.get('service_name', 'GCP incident'))
         url = str(item.get('uri', ''))
 
         begin = _to_dt(item.get('begin'))
-        finish = _to_dt(item.get('end')) or _to_dt(
-            item.get('most_recent_update'))
+        finish = _to_dt(item.get('end')) or _to_dt(item.get('most_recent_update'))
         if begin is None:
             continue
 
@@ -91,8 +88,7 @@ def fetch_gcp_incidents(start: dt.datetime, end: dt.datetime) -> List[Incident]:
         incidents.append(
             Incident(
                 provider='GCP',
-                incident_id=str(
-                    inc_id) if inc_id else f'gcp-{begin.isoformat()}',
+                incident_id=str(inc_id) if inc_id else f'gcp-{begin.isoformat()}',
                 title=title,
                 start=clamped[0],
                 end=clamped[1],

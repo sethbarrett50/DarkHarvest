@@ -70,19 +70,15 @@ def build_botnet_proxy_series(
             frames.append(dfp)
 
     if not frames:
-        logger.warning(
-            'No botnet proxy data collected from DShield (all ports empty).')
+        logger.warning('No botnet proxy data collected from DShield (all ports empty).')
         return pd.DataFrame(columns=['date', 'new_devices'])
 
     all_df = pd.concat(frames, ignore_index=True)
-    daily = all_df.groupby('date', as_index=False)['value'].sum().rename(
-        columns={'value': 'new_devices'})  # type: ignore
+    daily = all_df.groupby('date', as_index=False)['value'].sum().rename(columns={'value': 'new_devices'})  # type: ignore
 
     full_days = pd.date_range(start=start_date, end=end_date, freq='D')
-    daily = daily.set_index('date').reindex(
-        full_days, fill_value=0).rename_axis('date').reset_index()
+    daily = daily.set_index('date').reindex(full_days, fill_value=0).rename_axis('date').reset_index()
 
     daily['date'] = pd.to_datetime(daily['date']).dt.tz_localize(None)
-    daily['new_devices'] = pd.to_numeric(
-        daily['new_devices'], errors='coerce').fillna(0).astype(int)
+    daily['new_devices'] = pd.to_numeric(daily['new_devices'], errors='coerce').fillna(0).astype(int)
     return daily
