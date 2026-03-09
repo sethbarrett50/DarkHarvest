@@ -54,11 +54,9 @@ debug: ## Debugging mode for main
 		--out-csv outages.csv \
 		--out-plot overlay.png 
 
-last-month:
-	$(UV) run python -m darkharvest.cli \
-		--start 2025-12-01 --end 2026-01-01 \
-		--ports 23 2323 7547 5555 \
-		--botnet-metric sources \
-		--user-agent "SethBarrettResearch/1.0 (sebarrett@augusta.edu)" \
-		--out-csv outages.csv \
-		--out-plot overlay.png 
+build: ## Build sdist/wheel
+	$(UV) build
+
+preflight: ## Build + run twine metadata checks
+	$(UV) build
+	uvx twine check dist/*
