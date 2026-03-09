@@ -27,7 +27,7 @@ lint: ## Lint with ruff and apply safe auto-fixes
 	$(UV) run $(RUFF) check . --fix
 
 main: ## Build outage timetable + botnet proxy overlay plot
-	$(UV) run python -m src.cli \
+	$(UV) run python -m darkharvest.cli \
 		--start 2025-01-01 --end 2026-01-01 \
 		--ports 23 2323 7547 5555 \
 		--botnet-metric sources \
@@ -36,7 +36,7 @@ main: ## Build outage timetable + botnet proxy overlay plot
 		--out-plot overlay.png \
 
 debug: ## Debugging mode for main
-	$(UV) run python -m src.cli \
+	$(UV) run python -m darkharvest.cli \
 		--start 2025-01-01 --end 2026-01-01 \
 		--ports 23 2323 7547 5555 \
 		--botnet-metric sources \
@@ -46,7 +46,7 @@ debug: ## Debugging mode for main
 		--debug
 
 3month: ## Using in creating display_graph.png
-	$(UV) run python -m src.cli \
+	$(UV) run python -m darkharvest.cli \
 		--start 2025-01-01 --end 2025-03-01 \
 		--ports 23 2323 7547 5555 \
 		--botnet-metric sources \
@@ -55,7 +55,7 @@ debug: ## Debugging mode for main
 		--out-plot overlay.png 
 
 last-month:
-	$(UV) run python -m src.cli \
+	$(UV) run python -m darkharvest.cli \
 		--start 2025-12-01 --end 2026-01-01 \
 		--ports 23 2323 7547 5555 \
 		--botnet-metric sources \

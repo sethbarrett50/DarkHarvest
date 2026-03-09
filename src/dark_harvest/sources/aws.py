@@ -9,7 +9,7 @@ import feedparser
 
 from dateutil import parser as dateparser
 
-from src.models import Incident
+from dark_harvest.models import Incident
 
 AWS_RSS_ALL = 'https://status.aws.amazon.com/rss/all.rss'
 
@@ -64,9 +64,11 @@ def fetch_aws_incidents(start: dt.datetime, end: dt.datetime) -> List[Incident]:
     grouped: Dict[str, List[Tuple[dt.datetime, str, str]]] = {}
 
     for entry in getattr(feed, 'entries', []):
-        guid = str(getattr(entry, 'guid', '') or getattr(entry, 'id', '') or '')
+        guid = str(getattr(entry, 'guid', '')
+                   or getattr(entry, 'id', '') or '')
         title = str(getattr(entry, 'title', '') or '')
-        published = _to_dt(getattr(entry, 'published', None) or getattr(entry, 'updated', None))
+        published = _to_dt(getattr(entry, 'published', None)
+                           or getattr(entry, 'updated', None))
         if not guid or published is None:
             continue
 

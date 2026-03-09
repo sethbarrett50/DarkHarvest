@@ -4,19 +4,20 @@ import argparse
 import datetime as dt
 import logging
 
-from src.plotting import plot_overlay
-from src.processing import build_botnet_proxy_series, incidents_to_df
-from src.sources.aws import fetch_aws_incidents
-from src.sources.cloudflare import fetch_cloudflare_incidents
-from src.sources.dshield import DshieldClient
-from src.sources.gcp import fetch_gcp_incidents
-from src.utils.logging_utils import configure_logging
+from .plotting import plot_overlay
+from .processing import build_botnet_proxy_series, incidents_to_df
+from .sources.aws import fetch_aws_incidents
+from .sources.cloudflare import fetch_cloudflare_incidents
+from .sources.dshield import DshieldClient
+from .sources.gcp import fetch_gcp_incidents
+from .utils.logging_utils import configure_logging
 
 logger = logging.getLogger(__name__)
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description='Overlay cloud outages with a botnet activity proxy time series.')
+    parser = argparse.ArgumentParser(
+        description='Overlay cloud outages with a botnet activity proxy time series.')
     parser.add_argument('--start', required=True, help='YYYY-MM-DD')
     parser.add_argument('--end', required=True, help='YYYY-MM-DD')
     parser.add_argument(
@@ -79,7 +80,8 @@ def main() -> None:
     outages_df = incidents_to_df([*aws, *gcp, *cloudflare])
 
     logger.info('Outages dataframe rows: %d', len(outages_df))
-    logger.debug('Outages df head:\n%s', outages_df.head(10).to_string(index=False))
+    logger.debug('Outages df head:\n%s',
+                 outages_df.head(10).to_string(index=False))
 
     outages_df.to_csv(args.out_csv, index=False)
 
@@ -93,7 +95,8 @@ def main() -> None:
     )
 
     logger.info('Botnet daily series rows: %d', len(botnet_daily))
-    logger.debug('Botnet daily head:\n%s', botnet_daily.head(10).to_string(index=False))
+    logger.debug('Botnet daily head:\n%s',
+                 botnet_daily.head(10).to_string(index=False))
 
     plot_overlay(outages_df, botnet_daily, start, end, args.out_plot)
 
