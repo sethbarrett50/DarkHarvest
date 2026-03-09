@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import datetime as dt
 import logging
 
 from .plotting import plot_overlay
@@ -10,6 +9,7 @@ from .sources.aws import fetch_aws_incidents
 from .sources.cloudflare import fetch_cloudflare_incidents
 from .sources.dshield import DshieldClient
 from .sources.gcp import fetch_gcp_incidents
+from .utils.config import DarkHarvestConfig
 from .utils.logging_utils import configure_logging
 
 logger = logging.getLogger(__name__)
@@ -53,18 +53,19 @@ def main() -> None:
     CLI entrypoint to build outage timetable + botnet proxy overlay plot.
     """
     args = _parse_args()
+    config = DarkHarvestConfig.from_namespace(args)
     configure_logging(debug=bool(args.debug))
 
-    start = dt.datetime.fromisoformat(args.start)
-    end = dt.datetime.fromisoformat(args.end)
+    start = config.start
+    end = config.end
 
     logger.info('Starting run: start=%s end=%s', start.date(), end.date())
     logger.info(
         'Botnet proxy config: ports=%s metric=%s',
-        list(args.ports),
-        args.botnet_metric,
+        list(config.ports),
+        config.botnet_metric,
     )
-    logger.debug('User-Agent: %s', args.user_agent)
+    logger.debug('User-Agent: %s', config.user_agent)
 
     aws = fetch_aws_incidents(start, end)
     gcp = fetch_gcp_incidents(start, end)
@@ -83,25 +84,25 @@ def main() -> None:
     logger.debug('Outages df head:\n%s',
                  outages_df.head(10).to_string(index=False))
 
-    outages_df.to_csv(args.out_csv, index=False)
+    outages_df.to_csv(config.out_csv, index=False)
 
-    dshield = DshieldClient(user_agent=args.user_agent)
+    dshield = DshieldClient(user_agent=config.user_agent)
     botnet_daily = build_botnet_proxy_series(
         client=dshield,
-        ports=list(args.ports),
+        ports=list(config.ports),
         start=start,
         end=end,
-        metric=str(args.botnet_metric),
+        metric=str(config.botnet_metric),
     )
 
     logger.info('Botnet daily series rows: %d', len(botnet_daily))
     logger.debug('Botnet daily head:\n%s',
                  botnet_daily.head(10).to_string(index=False))
 
-    plot_overlay(outages_df, botnet_daily, start, end, args.out_plot)
+    plot_overlay(outages_df, botnet_daily, start, end, config.out_plot)
 
-    logger.info('Wrote outage timetable: %s', args.out_csv)
-    logger.info('Wrote overlay plot: %s', args.out_plot)
+    logger.info('Wrote outage timetable: %s', config.out_csv)
+    logger.info('Wrote overlay plot: %s', config.out_plot)
 
 
 if __name__ == '__main__':

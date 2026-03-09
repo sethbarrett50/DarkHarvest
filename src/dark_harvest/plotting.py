@@ -8,13 +8,15 @@ import pandas as pd
 if TYPE_CHECKING:
     import datetime as dt
 
+    from pathlib import Path
+
 
 def plot_overlay(
     outages: pd.DataFrame,
     botnet_daily: pd.DataFrame,
     start: dt.datetime,
     end: dt.datetime,
-    out_path: str,
+    out_path: Path,
 ) -> None:
     """
     Plot botnet proxy time series and overlay outage windows as shaded spans.
