@@ -16,8 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description='Overlay cloud outages with a botnet activity proxy time series.')
+    parser = argparse.ArgumentParser(description='Overlay cloud outages with a botnet activity proxy time series.')
     parser.add_argument('--start', required=True, help='YYYY-MM-DD')
     parser.add_argument('--end', required=True, help='YYYY-MM-DD')
     parser.add_argument(
@@ -68,11 +67,11 @@ def main() -> None:
     logger.debug('User-Agent: %s', config.user_agent)
 
     aws = fetch_aws_incidents(start, end)
-    logger.debug("AWS incidents pulled")
+    logger.debug('AWS incidents pulled')
     gcp = fetch_gcp_incidents(start, end)
-    logger.debug("GCP incidents pulled")
+    logger.debug('GCP incidents pulled')
     cloudflare = fetch_cloudflare_incidents(start, end)
-    logger.debug("Cloudflare incidents pulled")
+    logger.debug('Cloudflare incidents pulled')
 
     logger.info(
         'Fetched incidents: AWS=%d GCP=%d Cloudflare=%d',
@@ -84,8 +83,7 @@ def main() -> None:
     outages_df = incidents_to_df([*aws, *gcp, *cloudflare])
 
     logger.info('Outages dataframe rows: %d', len(outages_df))
-    logger.debug('Outages df head:\n%s',
-                 outages_df.head(10).to_string(index=False))
+    logger.debug('Outages df head:\n%s', outages_df.head(10).to_string(index=False))
 
     outages_df.to_csv(config.out_csv, index=False)
 
@@ -99,8 +97,7 @@ def main() -> None:
     )
 
     logger.info('Botnet daily series rows: %d', len(botnet_daily))
-    logger.debug('Botnet daily head:\n%s',
-                 botnet_daily.head(10).to_string(index=False))
+    logger.debug('Botnet daily head:\n%s', botnet_daily.head(10).to_string(index=False))
 
     plot_overlay(outages_df, botnet_daily, start, end, config.out_plot)
 
