@@ -6,8 +6,8 @@ PY   ?= python
 RUFF ?= ruff
 PKG  ?= dark_harvest
 
-START             ?= 2025-01-01
-END               ?= 2026-01-01
+START             ?= 2026-01-10
+END               ?= 2026-03-10
 PORTS             ?= 23 2323 7547 5555
 BOTNET_METRIC     ?= sources
 USER_AGENT        ?= SethBarrettResearch/1.0\ \(sebarrett@augusta.edu\)
