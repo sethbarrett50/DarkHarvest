@@ -30,6 +30,8 @@ dependencies = [
   "pydantic>=2.12.5",
   "python-dateutil>=2.9.0.post0",
   "requests>=2.32.5",
+  "scipy>=1.17.1",
+  "statsmodels>=0.14.6",
 ]
 
 [project.urls]

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-from typing import Any, List, Tuple
+from typing import Any, List, Optional, Tuple
 
 import requests
 
@@ -13,7 +13,7 @@ from dark_harvest.models import Incident
 GCP_INCIDENTS_JSON = 'https://status.cloud.google.com/incidents.json'
 
 
-def _to_dt(x: Any) -> dt.datetime | None:
+def _to_dt(x: Any) -> Optional[dt.datetime]:
     """
     Convert a timestamp-like value to a UTC-naive datetime.
 
@@ -44,7 +44,7 @@ def _clamp_range(
     inc_end: dt.datetime,
     start: dt.datetime,
     end: dt.datetime,
-) -> Tuple[dt.datetime, dt.datetime] | None:
+) -> Optional[Tuple[dt.datetime, dt.datetime]]:
     """Clamp an incident window to [start, end] if overlapping; otherwise return None."""
     if inc_end < start or inc_start > end:
         return None
