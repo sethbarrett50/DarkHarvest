@@ -8,7 +8,7 @@ import requests
 
 from dateutil import parser as dateparser
 
-from src.models import Incident
+from dark_harvest.models import Incident
 
 GCP_INCIDENTS_JSON = 'https://status.cloud.google.com/incidents.json'
 

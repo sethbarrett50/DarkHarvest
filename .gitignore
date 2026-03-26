@@ -17,3 +17,9 @@ wheels/
 
 # Output
 *.png
+
+# Backups
+*.bkp
+
+# Logs
+*.log

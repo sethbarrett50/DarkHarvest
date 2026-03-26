@@ -9,8 +9,8 @@ import pandas as pd
 if TYPE_CHECKING:
     import datetime as dt
 
-    from src.models import Incident
-    from src.sources.dshield import DshieldClient
+    from .models import Incident
+    from .sources.dshield import DshieldClient
 
 logger = logging.getLogger(__name__)
 
