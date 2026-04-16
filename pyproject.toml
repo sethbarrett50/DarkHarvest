@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkharvest"
-version = "0.2.1"
+version = "0.2.2"
 description = "Overlay cloud outage timelines with botnet activity proxy data."
 readme = "README.md"
 requires-python = ">=3.13"
