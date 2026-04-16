@@ -242,7 +242,6 @@ dependencies = [
     { name = "pydantic" },
     { name = "python-dateutil" },
     { name = "requests" },
-    { name = "scipy" },
     { name = "statsmodels" },
 ]
 
@@ -264,7 +263,6 @@ requires-dist = [
     { name = "pydantic", specifier = "==2.12.5" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
     { name = "requests", specifier = "==2.33.1" },
-    { name = "scipy", specifier = "==1.17.1" },
     { name = "statsmodels", specifier = "==0.14.6" },
 ]
 
