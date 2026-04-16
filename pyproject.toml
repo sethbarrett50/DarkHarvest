@@ -26,7 +26,7 @@ dependencies = [
   "feedparser==6.0.12",
   "matplotlib==3.10.8",
   "numpy==2.4.3",
-  "pandas==3.0.1",
+  "pandas==3.0.2",
   "pydantic==2.12.5",
   "python-dateutil==2.9.0.post0",
   "requests==2.33.0",
