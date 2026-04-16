@@ -121,3 +121,6 @@ clean: ## Remove build/test/cache artifacts
 	rm -rf .pytest_cache .ruff_cache build dist *.egg-info htmlcov .coverage
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
 	find . -type f -name '*.pyc' -delete
+
+deps.check: ## Check for dependency issues
+	$(UV) run deptry .

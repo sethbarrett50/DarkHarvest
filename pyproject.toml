@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=82.0.1", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -25,11 +25,11 @@ dependencies = [
   "beautifulsoup4==4.14.3",
   "feedparser==6.0.12",
   "matplotlib==3.10.8",
-  "numpy==2.4.3",
-  "pandas==3.0.1",
+  "numpy==2.4.4",
+  "pandas==3.0.2",
   "pydantic==2.12.5",
   "python-dateutil==2.9.0.post0",
-  "requests==2.33.0",
+  "requests==2.33.1",
   "scipy==1.17.1",
   "statsmodels==0.14.6",
 ]
@@ -49,6 +49,7 @@ where = ["src"]
 
 [dependency-groups]
 dev = [
+  "deptry>=0.25.1",
   "pytest==9.0.2",
   "ruff==0.15.8",
   "twine==6.2.0",
