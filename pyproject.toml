@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=82.0.1", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkharvest"
-version = "0.2.1"
+version = "0.2.2"
 description = "Overlay cloud outage timelines with botnet activity proxy data."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -25,12 +25,11 @@ dependencies = [
   "beautifulsoup4==4.14.3",
   "feedparser==6.0.12",
   "matplotlib==3.10.8",
-  "numpy==2.4.3",
-  "pandas==3.0.1",
+  "numpy==2.4.4",
+  "pandas==3.0.2",
   "pydantic==2.12.5",
   "python-dateutil==2.9.0.post0",
-  "requests==2.33.0",
-  "scipy==1.17.1",
+  "requests==2.33.1",
   "statsmodels==0.14.6",
 ]
 
@@ -49,7 +48,14 @@ where = ["src"]
 
 [dependency-groups]
 dev = [
+  "deptry>=0.25.1",
   "pytest==9.0.2",
   "ruff==0.15.8",
   "twine==6.2.0",
 ]
+
+[tool.deptry]
+root = ["src"]
+
+[tool.deptry.per_rule_ignores]
+DEP003 = ["dark_harvest"]
