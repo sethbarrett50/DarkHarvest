@@ -50,7 +50,7 @@ where = ["src"]
 dev = [
   "deptry>=0.25.1",
   "pytest==9.0.2",
-  "ruff==0.15.8",
+  "ruff==0.15.9",
   "twine==6.2.0",
 ]
 
