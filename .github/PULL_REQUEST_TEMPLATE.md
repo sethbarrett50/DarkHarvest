@@ -12,7 +12,7 @@
 ## Testing
 - [ ] `make lint`
 - [ ] `make test` -> WiP
-- [ ] `make build`
+- [ ] `make preflight`
 - [ ] `make deps.check`
 
 ## Notes
